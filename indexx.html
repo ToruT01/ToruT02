@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Shisui</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Màu sắc chủ đạo theme sáng */
+            --primary-color: #4361ee;  /* Xanh dương tươi sáng */
+            --secondary-color: #3a0ca3; /* Xanh dương đậm */
+            --accent-color: #f72585;   /* Hồng nổi bật */
+            --text-color: #2b2d42;     /* Gần đen nhẹ */
+            --bg-color: #f8f9ff;      /* Nền trắng xanh nhạt */
+            --card-color: #ffffff;     /* Trắng */
+            --shadow: 0 4px 20px rgba(67, 97, 238, 0.1);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --avatar-url: url('https://avatars.githubusercontent.com/u/183936251?v=4');
+            --bg-pattern: linear-gradient(135deg, #f8f9ff 0%, #eef1ff 100%);
+        }
+
+        .dark-mode {
+            /* Màu sắc chủ đạo theme tối */
+            --primary-color: #4895ef;   /* Xanh dương sáng */
+            --secondary-color: #4361ee; /* Xanh dương */
+            --accent-color: #f72585;    /* Hồng giữ nguyên */
+            --text-color: #f8f9fa;      /* Trắng nhẹ */
+            --bg-color: #0a0a1a;        /* Đen xanh đậm */
+            --card-color: #1a1a2e;      /* Xanh đen */
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --avatar-url: url('https://i.pinimg.com/1200x/21/80/e1/2180e12fee993bd63fb41aa30664c5ed.jpg');
+            --bg-pattern: linear-gradient(135deg, #0a0a1a 0%, #16213e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-pattern);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.6s ease, color 0.6s ease;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 20px 0;
+            position: relative;
+        }
+
+       .theme-toggle {
+    position: fixed;      /* Cố định vị trí dù cuộn trang */
+    right: 15px;         /* Cách mép phải 15px (~1cm) */
+    top: 20px;           /* Cách mép trên 20px */
+    /* Giữ nguyên các thuộc tính khác */
+    background: var(--card-color);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 100;        /* Đảm bảo nút luôn hiển thị trên các phần khác */
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Chỉ áp dụng transition cho hover */
+}
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            color: var(--accent-color);
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 0;
+            flex-wrap: wrap;
+            min-height: 90vh;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.8s forwards 0.3s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transform: translateX(50px) scale(0.8);
+            animation: slideInImage 0.8s forwards 0.5s;
+        }
+
+        @keyframes slideInImage {
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.2);
+            background-image: var(--avatar-url);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(247, 37, 133, 0.1) 100%);
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 .accent {
+            color: var(--accent-color);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--text-color);
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .about-me {
+            padding: 80px 0;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(67, 97, 238, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+        }
+
+        .card.animated {
+            animation: fadeUp 0.8s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: default;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
+        }
+
+        .skill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            border-radius: 3px;
+        }
+
+        footer p {
+            opacity: 0.7;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 80px 0;
+                min-height: auto;
+            }
+
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 50px;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .avatar {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+        /* Wave animation */
+        .wave {
+            animation-name: wave-animation;
+            animation-duration: 2.5s;
+            animation-iteration-count: infinite;
+            transform-origin: 70% 70%;
+            display: inline-block;
+        }
+
+        @keyframes wave-animation {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Xin Chao, My name is <span class="accent">Pham Tuan Tu</span> <span class="wave">:3</span></h1>
+                <h2>Full-stack Developer</h2>
+                <p>chả biết nói gì</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/Shisui061" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/dongianchilatuantu131006/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-steam"></i></a>
+                    <a href="https://github.com/ToruT01" target="_blank"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="avatar"></div>
+            </div>
+        </section>
+
+        <section class="about-me">
+            <div class="card">
+                <h2>Giới Thiệu</h2>
+                <p>Tôi đang ôn thi đại học lần 2.</p>
+                
+            </div>
+
+            <div class="card">
+                <h2>Game</h2>
+                <div class="Game">
+                    <span class="skill">PUBG MOBILE</span>
+                    <span class="skill">LIÊN QUÂN</span>
+                    <span class="skill">TFT</span>
+                    <span class="skill">MINECRAFT</span>
+                    <span class="skill">CS2</span>
+                    <span class="skill">ROBLOX</span>
+                    <span class="skill">PUBG BATTLEGROUNDS</span>
+                    <span class="skill">VALORANT</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Liên Hệ</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>phamtuantu131006@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+84 972767730</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Hà Tĩnh, Việt Nam</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2006 Phạm Tuấn Tú. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Card animation on scroll
+        const cards = document.querySelectorAll('.card');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
